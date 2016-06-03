@@ -1,6 +1,7 @@
 package dms
 
 import (
+	"bufio"
 	"bytes"
 	"crypto/md5"
 	"encoding/xml"
@@ -22,13 +23,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/anacrolix/dms/dlna"
-	"github.com/anacrolix/dms/ffmpeg"
-	"github.com/anacrolix/dms/soap"
-	"github.com/anacrolix/dms/ssdp"
-	"github.com/anacrolix/dms/transcode"
-	"github.com/anacrolix/dms/upnp"
-	"github.com/anacrolix/dms/upnpav"
+	"github.com/jamesnetherton/dms/dlna"
+	"github.com/jamesnetherton/dms/ffmpeg"
+	"github.com/jamesnetherton/dms/soap"
+	"github.com/jamesnetherton/dms/ssdp"
+	"github.com/jamesnetherton/dms/transcode"
+	"github.com/jamesnetherton/dms/upnp"
+	"github.com/jamesnetherton/dms/upnpav"
 )
 
 const (
@@ -789,6 +790,33 @@ func (server *Server) initMux(mux *http.ServeMux) {
 	mux.HandleFunc(resPath, func(w http.ResponseWriter, r *http.Request) {
 		filePath := server.filePath(r.URL.Query().Get("path"))
 		k := r.URL.Query().Get("transcode")
+
+		if strings.HasSuffix(filePath, ".m3u") {
+			file, err := os.Open(filePath)
+			if err != nil {
+				fmt.Errorf("Unable to read m3u playlist")
+				return
+			}
+
+			defer file.Close()
+
+			scanner := bufio.NewScanner(file)
+			for scanner.Scan() {
+				line := scanner.Text()
+				if strings.HasPrefix(line, "http") {
+					resp, err := http.Get(line)
+					if err == nil {
+						reader := bufio.NewReader(resp.Body)
+						for {
+							buff, _ := reader.ReadBytes('\n')
+							w.Write(buff)
+						}
+					}
+					return
+				}
+			}
+		}
+
 		if k == "" {
 			http.ServeFile(w, r, filePath)
 			return

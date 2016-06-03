@@ -13,11 +13,11 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/anacrolix/dms/dlna"
-	"github.com/anacrolix/dms/ffmpeg"
-	"github.com/anacrolix/dms/misc"
-	"github.com/anacrolix/dms/upnp"
-	"github.com/anacrolix/dms/upnpav"
+	"github.com/jamesnetherton/dms/dlna"
+	"github.com/jamesnetherton/dms/ffmpeg"
+	"github.com/jamesnetherton/dms/misc"
+	"github.com/jamesnetherton/dms/upnp"
+	"github.com/jamesnetherton/dms/upnpav"
 )
 
 type contentDirectoryService struct {

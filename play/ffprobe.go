@@ -6,7 +6,7 @@ import (
 	"flag"
 	"log"
 
-	"github.com/anacrolix/dms/ffmpeg"
+	"github.com/jamesnetherton/dms/ffmpeg"
 )
 
 func main() {

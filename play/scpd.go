@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/anacrolix/dms/upnp"
+	"github.com/jamesnetherton/dms/upnp"
 )
 
 func main() {

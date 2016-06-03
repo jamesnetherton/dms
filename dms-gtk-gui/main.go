@@ -8,7 +8,7 @@ import (
 	"github.com/mattn/go-gtk/gdk"
 	"github.com/mattn/go-gtk/gtk"
 
-	"github.com/anacrolix/dms/dlna/dms"
+	"github.com/jamesnetherton/dms/dlna/dms"
 )
 
 func main() {
